@@ -1,5 +1,4 @@
 import os
-location="D:\\OneDrive - whu.edu.cn\\Others\Obsidian\\5-Daily\\3-English"
 
 
 def word_markdown(word):
