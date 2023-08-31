@@ -9,6 +9,6 @@ def word_markdown(word):
         text += f"> {order + 1}. {trans['property']} {trans['meaning']}\n"
         if trans["example_list"]:
             for example in trans["example_list"]:
-                text += f"> \te.g. {example['example_EN']} {example['example_CN']}\n"
+                text += f"> \t- e.g. {example['example_EN']} {example['example_CN']}\n"
     text += "---\n"
     return text
