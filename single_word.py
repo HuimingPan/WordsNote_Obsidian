@@ -1,7 +1,7 @@
 import win32clipboard
 import win32con
-import os
-import read, get_data, markdown
+import get_data
+import markdown
 
 """
 In this file, enter the word to be looked up in console and paste it into ClipBoard.
