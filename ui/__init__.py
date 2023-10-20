@@ -1,14 +1,17 @@
 # Create the logic of ui
 #
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QFileDialog
-from ui.interface import Ui_MainWindow
+import datetime
+import json
+import os
+import re
+
 import win32clipboard
 import win32con
-import markdown
-import get_data
-import datetime, json, os
-import re
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QFileDialog
+
+from utilities import get_data, markdown
+from .interface import Ui_MainWindow
 
 
 class Note_Generator(QtWidgets.QMainWindow, Ui_MainWindow):

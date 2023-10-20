@@ -1,6 +1,5 @@
-from ui.note_generator import Note_Generator
-import sys, os
-from PyQt5 import QtCore, QtGui, QtWidgets
+from ui import Note_Generator
+from PyQt5 import QtWidgets
 
 if __name__ == "__main__":
     import sys

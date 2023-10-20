@@ -1,11 +1,12 @@
-import unittest, read
+import unittest
+from utilities import read
 
 
 class ReadTestCase(unittest.TestCase):
 
     def test_read_from_files(self):
         path = "test.txt"
-        words = read.read_words("file", path=path,filetype="foxitPDF")
+        words = read.read_words("file", path=path, filetype="foxitPDF")
         print(words)
         self.assertIn("synergy", words, "Read form files test failed")
 

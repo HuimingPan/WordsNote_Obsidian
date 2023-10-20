@@ -1,5 +1,5 @@
 import unittest
-import get_data
+from utilities import get_data
 
 word = get_data.Word("engineering")
 
