@@ -11,7 +11,7 @@ import win32con
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QFileDialog
 
-from utilities import get_data, markdown
+from utilities import get_data, markdown, repeatability
 from .interface import Ui_MainWindow
 
 
@@ -31,6 +31,20 @@ class Note_Generator(QtWidgets.QMainWindow, Ui_MainWindow):
         input_text = self.textEdit_input.toPlainText()
         word_list = text_to_list(input_text)
         note_text = ""
+
+
+        # Check if the word has been recorded before.
+        word_repeat_list = repeatability.check_word(word_list)
+        if word_repeat_list:
+            word_repeat_text = "以下单词已经记录过：\n"
+            for word, date in word_repeat_list:
+                word_repeat_text += f"{word}, {date}\n"
+                word_list.remove(word)
+            self.textEdit_input.append(word_repeat_text)
+
+        # Append the word to the file with the date it was first recorded.
+        repeatability.append_word(word_list)
+
         for word in word_list:
             try:
                 word_obj = get_data.Word(word)

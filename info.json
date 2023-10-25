@@ -3,5 +3,6 @@
 "English_dir" : "5-Daily\\3-English",
 "Input_file_dir" : "C:\\Users\\Panhuiming\\Desktop",
 "Input_file_name" : "WordsEveryDay.txt",
-"Auto_start": true
+"Auto_start": true,
+  "history_filename": "history.csv"
 }
