@@ -1,5 +1,6 @@
-# Create the logic of ui
-#
+"""
+In this file, we define the main window, logic and functions of the user interface.
+"""
 import datetime
 import json
 import os
@@ -24,6 +25,8 @@ class Note_Generator(QtWidgets.QMainWindow, Ui_MainWindow):
         self.radioButton_file.setChecked(True)
         self.textEdit_input.clear()
 
+        self.parameters = json.load(open('info.json'))
+
     def start(self):
         input_text = self.textEdit_input.toPlainText()
         word_list = text_to_list(input_text)
@@ -45,29 +48,35 @@ class Note_Generator(QtWidgets.QMainWindow, Ui_MainWindow):
             win32clipboard.CloseClipboard()
         elif mode == "file":
             date = datetime.date.today().strftime("%Y-%m-%d")
-            with open('info.json') as json_file:
-                dir_info = json.load(json_file)
-                obsidian_dir = dir_info["obsidian_dir"]
-                file_dir = dir_info["English_dir"]
             filename = f"draft English {date}.md"
-            path = os.path.join(obsidian_dir, file_dir, filename)
+            path = os.path.join(self.parameters["obsidian_dir"],
+                                self.parameters["English_dir"],
+                                filename)
             with open(path, encoding="utf-8", mode="w+") as f:
                 f.write(text)
         else:
             raise ValueError("输出模式错误")
         self.textEdit_input.append("已输出到" + mode)
+
     def open_file(self):
-        file_name, file_type = QFileDialog.getOpenFileName(self, "选取文件", "./", "Text Files (*.txt)")
-        with open(file_name, encoding="utf-8") as f:
-            text = f.read()
-        self.textEdit_input.setText(text)
+        try:
+            file_path = os.path.join(self.parameters["Input_file_dir"], self.parameters["Input_file_name"])
+            with open(file_path, encoding="utf-8") as f:
+                text = f.read()
+            self.textEdit_input.setText(text)
+        except FileNotFoundError:
+            file_name, file_type = QFileDialog.getOpenFileName(self, "选取文件",
+                                                               self.parameters["Input_file_dir"],
+                                                               "Text Files (*.txt)")
+            with open(file_name, encoding="utf-8") as f:
+                text = f.read()
+            self.textEdit_input.setText(text)
+        if self.parameters["Auto_start"]:
+            self.start()
+
 
 def text_to_list(text, sepereator=","):
     reg = r'([a-z]+)'
     reg = re.compile(reg)
     words = re.findall(reg, text)
     return words
-
-
-def read_from_file():
-    pass
