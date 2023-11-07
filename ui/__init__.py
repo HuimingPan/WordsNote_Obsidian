@@ -43,14 +43,23 @@ class Note_Generator(QtWidgets.QMainWindow, Ui_MainWindow):
             self.textEdit_input.append(word_repeat_text)
 
         # Append the word to the file with the date it was first recorded.
-        repeatability.append_word(word_list)
 
+        word_wrong_list = []
+        word_found_list = []
         for word in word_list:
             try:
                 word_obj = get_data.Word(word)
+                word_found_list.append(word)
             except:
+                word_wrong_list.append(word)
                 continue
             note_text += markdown.word_markdown(word_obj)
+        if word_wrong_list:
+            word_wrong_text = "以下单词未找到：\n"
+            for word in word_wrong_list:
+                word_wrong_text += f"{word}\n"
+            self.textEdit_input.append(word_wrong_text)
+        repeatability.append_word(word_found_list)
         output_mode = "file" if self.radioButton_file.isChecked() else "clipboard"
         self.output(note_text, output_mode)
 

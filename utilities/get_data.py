@@ -23,10 +23,10 @@ class Word:
         response = urllib.request.urlopen(self.url)
         self.html = response.read().decode('utf-8')
         self.selector = etree.HTML(self.html)
-        try:
-            self.collins_selector = self.selector.xpath('//*[@id="collinsResult"]/div/div/div/div')[0]
-        except:
-            print(f"No collins translation of {self.spelling}")
+
+        self.collins_selector = self.selector.xpath('//*[@id="collinsResult"]/div/div/div/div')[0]
+
+        print(f"No collins translation of {self.spelling}")
 
     def _get_spelling(self):
         """
