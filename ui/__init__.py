@@ -21,28 +21,32 @@ class Note_Generator(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.pushButton_start.clicked.connect(self.start)
         self.pushButton_file.clicked.connect(self.open_file)
-
         self.radioButton_file.setChecked(True)
         self.textEdit_input.clear()
-
+        self.progress_bar_init(0)
         self.parameters = json.load(open('info.json'))
 
     def start(self):
         input_text = self.textEdit_input.toPlainText()
         self.output_mode = "file" if self.radioButton_file.isChecked() else "clipboard"
         word_list = text_to_list(input_text)
-        web_thread = Web_handler(word_list, self)
-        web_thread.note_signal.connect(self.output)
-        web_thread.start()
+        self.progress_bar_init(len(word_list))
+        self.web_thread = Web_handler(word_list, self)
+        self.web_thread.note_signal.connect(self.output)
+        self.web_thread.start()
 
+    def progress_bar_init(self, max_value):
+        self.progressBar.setMaximum(max_value)
+        self.progressBar.setValue(0)
 
     def output(self, text):
-        if self.mode == "clipboard":
+        self.web_thread.quit()
+        if self.output_mode == "clipboard":
             win32clipboard.OpenClipboard()
             win32clipboard.EmptyClipboard()
             win32clipboard.SetClipboardData(win32con.CF_UNICODETEXT, text)
             win32clipboard.CloseClipboard()
-        elif self.mode == "file":
+        elif self.output_mode == "file":
             date = datetime.date.today().strftime("%Y-%m-%d")
             filename = f"draft English {date}.md"
             path = os.path.join(self.parameters["obsidian_dir"],
@@ -52,7 +56,7 @@ class Note_Generator(QtWidgets.QMainWindow, Ui_MainWindow):
                 f.write(text)
         else:
             raise ValueError("输出模式错误")
-        self.textEdit_input.append("已输出到" + self.mode)
+        self.textEdit_input.append("已输出到" + self.output_mode)
 
     def open_file(self):
         try:

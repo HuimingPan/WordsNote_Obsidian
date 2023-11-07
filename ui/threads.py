@@ -21,7 +21,8 @@ class Web_handler(QThread):
         note_text = ""
         word_wrong_list = []
         word_found_list = []
-        for word in self.words:
+        for i,word in enumerate(self.words):
+            self.window.progressBar.setValue(i + 1)
             try:
                 word_obj = get_data.Word(word)
                 word_found_list.append(word)
@@ -35,5 +36,4 @@ class Web_handler(QThread):
                 word_wrong_text += f"{word}\n"
             self.window.textEdit_input.append(word_wrong_text)
         repeatability.append_word(word_found_list)
-        output_mode = "file" if self.window.radioButton_file.isChecked() else "clipboard"
         self.note_signal.emit(note_text)
