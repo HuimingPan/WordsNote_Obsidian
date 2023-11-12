@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QThread, pyqtSignal
-from utilities import get_data, markdown, repeatability
+from utilities import get_data, markdown, repeat
 
 class Web_handler(QThread):
     note_signal = pyqtSignal(str)
@@ -9,7 +9,7 @@ class Web_handler(QThread):
         self.window = window
     def run(self):
         # Check if the word has been recorded before.
-        word_repeat_list = repeatability.check_word(self.words)
+        word_repeat_list = repeat.check_word(self.words)
 
         if word_repeat_list:
             word_repeat_text = "以下单词已经记录过：\n"
@@ -35,5 +35,5 @@ class Web_handler(QThread):
             for word in word_wrong_list:
                 word_wrong_text += f"{word}\n"
             self.window.textEdit_input.append(word_wrong_text)
-        repeatability.append_word(word_found_list)
+        repeat.append_word(word_found_list)
         self.note_signal.emit(note_text)

@@ -11,7 +11,7 @@ import win32con
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QFileDialog
 
-from utilities import get_data, markdown, repeatability
+from utilities import get_data, markdown, repeat
 from .interface import Ui_MainWindow
 from .threads import Web_handler
 

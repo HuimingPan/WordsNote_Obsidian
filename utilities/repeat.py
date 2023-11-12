@@ -31,8 +31,9 @@ def check_word(word_list):
     """
     filename = parameters["history_filename"]
     path = os.path.join("storage", filename)
-    df = pd.read_csv(path, encoding="utf-8", header=None, names=["word", "date"])
+    df = pd.read_csv(path, encoding="utf-8", header=0, names=["word", "date", "count", "source type", "source"])
     recorded_word_list = df["word"].tolist()
     date_list = df["date"].tolist()
     word_repeat_list = [(word, date_list[recorded_word_list.index(word)]) for word in word_list if word in recorded_word_list]
+
     return word_repeat_list
