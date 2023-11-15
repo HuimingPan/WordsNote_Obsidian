@@ -25,7 +25,8 @@ def string_to_clipboard(string):
     win32clipboard.CloseClipboard()
 
 
-word = input("Enter the word: ")
-word = get_data.Word(word)
-text = markdown.word_markdown(word)
-string_to_clipboard(text)
+if __name__ == '__main__':
+    word = input("Enter the word: ")
+    word = get_data.Word(word)
+    text = markdown.word_markdown(word)
+    string_to_clipboard(text)
